@@ -6,7 +6,6 @@ let frontPath = path.normalize(__dirname + '/../../');
 
 /* GET home page. */
 router.get('*', function(req, res) {
-    console.log(frontPath + 'frontend/build/static/index.html');
   res.sendFile(frontPath + 'frontend/build/static/index.html');
 });
 
