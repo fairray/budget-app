@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {PropTypes} from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as UserActions from '../../actions/UserActions'
@@ -8,9 +9,29 @@ export class LoginPage extends Component {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+  static contextTypes = {
+      router: PropTypes.object
+  }
   handleSubmit(e) {
-    e.preventDefault()
-    this.props.actions.login({name: e.target.elements[0].value, password: e.target.elements[1].value})
+    e.preventDefault();
+    let login = e.target.elements[0].value;
+    let pass = e.target.elements[1].value;
+    this.props.actions.login({name: login, password: pass});
+  }
+  checkLoggedIn(props){
+    if (props.isLoggedIn){
+      this.context.router.push({
+        pathname: '/'
+      });
+    }
+  }
+  componentWillMount(){
+    const { auth } = this.props;
+    this.checkLoggedIn(auth);
+  }
+  componentWillReceiveProps(newProps){
+    const { auth } = newProps;
+    this.checkLoggedIn(auth);
   }
   render() {
     return (
@@ -20,7 +41,7 @@ export class LoginPage extends Component {
             <input type="password" placeholder="password"/>
             <button type='submit'>Войти</button>
           </form>
-          {this.props.user.isFetching && <span>spinner</span>}
+          {this.props.auth.isFetching && <span>spinner</span>}
       </div>
     )
   }

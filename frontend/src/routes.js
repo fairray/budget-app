@@ -1,13 +1,20 @@
 import React from 'react';
-import App from './containers/App';
+import { Route, IndexRoute} from 'react-router';
 import LoginPage from './containers/LoginPage';
-import { Route } from 'react-router';
+import App from './containers/App';
 import NotFound from './components/NotFound';
-
+import HomePage from './components/HomePage';
+//import Register from './components/Register';
+import Dashboard from './containers/Dashboard';
+import RequireAuth from './containers/Auth';
+import Logout from './components/Logout';
 export const routes = (
   <div> 
     <Route path="/" component={App}>
+      <IndexRoute component={HomePage}></IndexRoute>
       <Route path='/login' component={LoginPage}></Route>
+      <Route path='/dashboard' component={RequireAuth(Dashboard)}></Route>
+      <Route path='/logout' component={RequireAuth(Logout)}></Route>
       <Route path='*' component={NotFound} />
     </Route>
   </div>
