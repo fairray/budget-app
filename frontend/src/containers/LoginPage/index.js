@@ -2,7 +2,12 @@ import React, { Component } from 'react'
 import {PropTypes} from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import { Card, CardActions } from 'material-ui/Card';
+import CircularProgress from 'material-ui/CircularProgress';
 import * as UserActions from '../../actions/UserActions'
+import './style.css';
 
 export class LoginPage extends Component {
   constructor(props){
@@ -35,13 +40,23 @@ export class LoginPage extends Component {
   }
   render() {
     return (
-      <div>
-          <form className='form-inline' onSubmit={this.handleSubmit}>
-            <input type='text' placeholder='login'/>
-            <input type="password" placeholder="password"/>
-            <button type='submit'>Войти</button>
-          </form>
-          {this.props.auth.isFetching && <span>spinner</span>}
+      <div className="login-form-container">
+        <Card>
+            <form className='login-form' onSubmit={this.handleSubmit}>
+              <div className="fields-group">
+                <TextField name="login" type='text' placeholder='login'/>
+                <TextField name="password" type="password" placeholder="password"/>
+              </div>
+              <div className="form-actions">
+                <RaisedButton 
+                  type='submit'
+                  disabled={this.props.auth.isFetching}
+                  primary
+                  icon={this.props.auth.isFetching && <CircularProgress size={25} thickness={2} />}
+                  >Войти</RaisedButton>
+              </div>
+            </form>
+        </Card>
       </div>
     )
   }

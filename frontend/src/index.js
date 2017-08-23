@@ -6,9 +6,11 @@ import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { routes } from './routes';
 import {LOGIN_SUCCESS} from './constants/User';
+import injectTapEventPlugin from "react-tap-event-plugin";
 const store = configureStore()
 const history = syncHistoryWithStore(browserHistory, store);
 const token = window.localStorage.getItem('token');
+injectTapEventPlugin();
 if (token){
   store.dispatch({
     type: LOGIN_SUCCESS,
